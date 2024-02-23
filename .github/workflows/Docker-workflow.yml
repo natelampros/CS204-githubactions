@@ -1,4 +1,5 @@
 name: Docker Workflow
+
 on:
   push:
     paths:
@@ -7,7 +8,7 @@ on:
 
 jobs:
   build_Docker_image:
-    name: Push Docker image to Docker hub
+    name: Push Docker image to Docker Hub
     runs-on: ubuntu-latest
 
     steps:
@@ -18,11 +19,20 @@ jobs:
           java-version: '11'
           distribution: 'adopt'
           architecture: x64
-      - name: Clear
-        run: nvm -ntp clean
+
+      - name: Clean
+        run: |
+          cd github-calculator
+          mvn -ntp clean
       - name: Build
-        run: nvm -ntp compile
+        run: |
+          cd github-calculator
+          mvn -ntp compile
       - name: Short tests
-        run: nvm -ntp test -Dtest='CalculatorTest'
+        run: |
+          cd github-calculator
+          mvn -ntp test -Dtest='CalculatorTest'
       - name: Long tests
-        run: nvm -ntp test -Dtest='CalculatorThorough'
+        run: |
+          cd github-calculator
+          mvn -ntp test -Dtest='CalculatorTestThorough'
